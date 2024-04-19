@@ -1,0 +1,6 @@
+[submodule "PFLlib"]
+	path = PFLlib
+	url = https://github.com/TsingZ0/PFLlib.git
+[submodule "LoRA"]
+	path = LoRA
+	url = https://github.com/microsoft/LoRA.git
