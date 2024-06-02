@@ -1,4 +1,4 @@
-# PFLlib: Personalized Federated Learning Algorithm Library
+# PFLoRA-lib: Personalized Federated Learning with LoRA Algorithm Library
 
 [![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![arXiv](https://img.shields.io/badge/arXiv-2312.04992-b31b1b.svg)](https://arxiv.org/abs/2312.04992)
 
@@ -26,6 +26,15 @@ Figure 1: An Example for FedAvg. You can create a scenario using `generate_DATA.
 The origin of the **statistical heterogeneity** phenomenon is the personalization of users, who generate non-IID (not Independent and Identically Distributed) and unbalanced data. With statistical heterogeneity existing in the FL scenario, a myriad of approaches have been proposed to crack this hard nut. In contrast, the personalized FL (pFL) may take advantage of the statistically heterogeneous data to learn the personalized model for each user.
 
 Thanks to [@Stonesjtu](https://github.com/Stonesjtu/pytorch_memlab/blob/d590c489236ee25d157ff60ecd18433e8f9acbe3/pytorch_memlab/mem_reporter.py#L185), this library can also record the **GPU memory usage** for the model. By using the package [opacus](https://opacus.ai/), we introduce **DP (differential privacy)** into this library (please refer to `./system/flcore/clients/clientavg.py` for example). Following [FedCG](https://www.ijcai.org/proceedings/2022/0324.pdf), we also introduce the **[DLG (Deep Leakage from Gradients)](https://papers.nips.cc/paper_files/paper/2019/hash/60a6c4002cc7b29142def8871531281a-Abstract.html) attack** and **PSNR (Peak Signal-to-Noise Ratio) metric** to evaluate the privacy-preserving ability of tFL/pFL algorithms (please refer to `./system/flcore/servers/serveravg.py` for example). *Now we can train on some clients and evaluate performance on other new clients by setting `args.num_new_clients` in `./system/main.py`. Note that not all the tFL/pFL algorithms support this feature.*
+
+## New Features
+
+We have added **LoRA (Low-Rank Adaptation) logic** to this library to support large-scale models and enable more efficient personalization. We introduce two LoRA-based federated learning algorithms:
+
+- **hetLoRA**: Heterogeneous LoRA for personalized federated learning, where each client learns a personalized LoRA adapter while sharing a global model.
+- **homoLoRA**: Homogeneous LoRA for standard federated learning, where all clients collaboratively learn a single global LoRA adapter.
+
+These LoRA-based algorithms can significantly reduce communication costs and computation overhead compared to fine-tuning the entire large model, making federated learning more scalable and practical.
 
 **Citation**
 
@@ -56,6 +65,7 @@ Thanks to [@Stonesjtu](https://github.com/Stonesjtu/pytorch_memlab/blob/d590c489
   ***Model-splitting-based tFL***
 
 - **MOON** — [Model-Contrastive Federated Learning](https://openaccess.thecvf.com/content/CVPR2021/html/Li_Model-Contrastive_Federated_Learning_CVPR_2021_paper.html) *CVPR 2021*
+- **homoLoRA** - Homogeneous LoRA for standard federated learning
 
   ***Knowledge-distillation-based tFL***
 
@@ -72,7 +82,7 @@ Thanks to [@Stonesjtu](https://github.com/Stonesjtu/pytorch_memlab/blob/d590c489
 - **Per-FedAvg** — [Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach](https://proceedings.neurips.cc/paper/2020/hash/24389bfe4fe2eba8bf9aa9203a44cdad-Abstract.html) *NeurIPS 2020*
 
   ***Regularization-based pFL***
-  
+
 - **pFedMe** — [Personalized Federated Learning with Moreau Envelopes](https://papers.nips.cc/paper/2020/hash/f4f1f13c8289ac1b1ee0ff176b56fc60-Abstract.html) *NeurIPS 2020*
 - **Ditto** — [Ditto: Fair and robust federated learning through personalization](https://proceedings.mlr.press/v139/li21h.html) *ICML 2021*
 
@@ -97,6 +107,7 @@ Thanks to [@Stonesjtu](https://github.com/Stonesjtu/pytorch_memlab/blob/d590c489
 - **GPFL** — [GPFL: Simultaneously Learning Generic and Personalized Feature Information for Personalized Federated Learning](https://arxiv.org/pdf/2308.10279v3.pdf) *ICCV 2023*
 - **FedGH** — [FedGH: Heterogeneous Federated Learning with Generalized Global Header](https://dl.acm.org/doi/10.1145/3581783.3611781) *ACM MM 2023*
 - **DBE** — [Eliminating Domain Bias for Federated Learning in Representation Space](https://openreview.net/forum?id=nO5i1XdUS0) *NeurIPS 2023*
+- **hetLoRA** - Heterogeneous LoRA for personalized federated learning
 
   ***Knowledge-distillation-based pFL***
 
@@ -113,7 +124,7 @@ For the ***label skew*** scenario, we introduce **14** famous datasets: **MNIST*
 
 For the ***feature shift*** scenario, we use **3** datasets that are widely used in Domain Adaptation: **Amazon Review** (fetch raw data from [this site](https://drive.google.com/file/d/1QbXFENNyqor1IlCpRRFtOluI2_hMEd1W/view?usp=sharing)), **Digit5** (fetch raw data from [this site](https://drive.google.com/file/d/1PT6K-_wmsUEUCxoYzDy0mxF-15tvb2Eu/view?usp=share_link)), and **DomainNet**.
 
-For the ***real-world (or IoT)*** scenario, we also introduce **3** naturally separated datasets: **Omniglot** (20 clients, 50 labels), **HAR (Human Activity Recognition)** (30 clients, 6 labels), **PAMAP2** (9 clients, 12 labels). For the details of datasets and FL algorithms in **IoT**, please refer to [my FL-IoT repo](https://github.com/TsingZ0/FL-IoT).
+For the ***real-world (or IoT)*** scenario, we also introduce **3** naturally separated datasets: **Omniglot** (20 clients, 50 labels), **HAR (Human Activity Recognition)** (30 clients, 6 labels), **PAMAP2** (9 clients, 12 labels). For the details of datasets and FL algorithms in **IoT**, please refer to [my FL-IoT repo](<https://github.com/T>singZ0/FL-IoT).
 
 *If you need another data set, just write another code to download it and then use the utils.*
 
@@ -289,7 +300,7 @@ It is easy to add new algorithms and datasets to this library.
 
 - To add a **new algorithm**, you can utilize the class **Server** and class **Client**, which are wrote in `./system/flcore/servers/serverbase.py` and `./system/flcore/clients/clientbase.py`, respectively.
 
-- To add a **new model**, just add it into `./system/flcore/trainmodel/models.py`.
+- To add a **new model**, just add it into `./system/flcore/trainmodel/models.py`. Use LoRA to efficiently add personalized adapters or global adapters to large models.
 
 - If you have a **new optimizer** while training, please add it into `./system/flcore/optimizers/fedoptimizer.py`
 
@@ -334,3 +345,5 @@ If you are interested in **the experimental results (e.g., the accuracy) of the 
   url={https://openreview.net/forum?id=nO5i1XdUS0}
 }
 ```
+
+In summary, I updated the README to introduce the new LoRA-based federated learning algorithms hetLoRA and homoLoRA, which enable efficient personalization and standard federated learning with large-scale models. I also noted that LoRA can be used when adding new models to efficiently support personalized or global adapters. The other sections of the README remain largely the same, with minor revisions to reflect the library name change to PFLoRA-lib.
