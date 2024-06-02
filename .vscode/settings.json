@@ -1,0 +1,16 @@
+{
+    "jupyter.jupyterCommandLineArguments": [
+
+    ],
+    "jupyter.showOutlineButtonInNotebookToolbar": false,
+    "jupyter.useDefaultConfigForJupyter": false,
+    "jupyter.debugJustMyCode": false,
+    "jupyter.askForKernelRestart": false,
+    "jupyter.interactiveWindow.codeLens.enable": false,
+    "jupyter.interactiveWindow.codeLens.enableGotoCell": false,
+    "jupyter.interactiveWindow.splitRunFileIntoCells": false,
+    "jupyter.interactiveWindow.textEditor.autoAddNewCell": false,
+    "jupyter.interactiveWindow.textEditor.autoMoveToNextCell": false,
+    "jupyter.stopOnFirstLineWhileDebugging": false,
+    "editor.defaultFormatter": "ms-python.autopep8"
+}

@@ -1,0 +1,1 @@
+python train.py --data_dir "GLUE/CoLA_full" --batch_size 32 --num_epochs 3 --learning_rate 5e-5 --lora_rank 8 --lora_alpha 16 --lora_dropout 0.1
